@@ -30,6 +30,7 @@ data_dir = "data"
 os.makedirs(data_dir, exist_ok=True)
 logger.info("Environment Setup: beginning unzip process") 
 
+# to create zipfilename for extraction 
 yesterday = datetime.now() - timedelta(days=1)
 
 start_time = yesterday.strftime('%Y%m%dT00')
@@ -88,6 +89,15 @@ try:
 except Exception as e:
     logger.error(f"Failed to delete temp directory: {str(e)}")
 
+
+#remove the zipfile after
+try:
+    os.remove(zipfilename)
+    logger.info(f'{zipfilename} successfully deleted!')
+except Exception as e:
+    logger.error(f"Failed to delete zipfile {zipfilename} : {str(e)}")
+
 print("All files extracted to the 'data' directory!")
 
 ##may need to add l to json > jsonl if not working
+
