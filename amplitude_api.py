@@ -33,7 +33,7 @@ logger.info('Logger was successfully initialised')
 
 data_dir = 'data'
 os.makedirs(data_dir, exist_ok = True)
-filename = f'{data_dir}/{timestamp}.json'
+## filename = f'{data_dir}/{timestamp}.json'
 
 url = 'https://analytics.eu.amplitude.com/api/2/export'
 
@@ -44,7 +44,7 @@ params = {
 
 zip_dir = 'zip'
 os.makedirs(zip_dir, exist_ok = True)
-zipfilename = f'{zip_dir}/{timestamp}.zip'
+zipfilename = f'{zip_dir}/{start_time}-T23.zip'
 
 
 
