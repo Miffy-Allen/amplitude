@@ -19,6 +19,7 @@ import zipfile
 import gzip        
 import shutil     
 import tempfile    
+from datetime import timedelta
 
 
 # Create a temporary directory for extraction
@@ -29,11 +30,20 @@ data_dir = "data"
 os.makedirs(data_dir, exist_ok=True)
 logger.info("Environment Setup: beginning unzip process") 
 
+yesterday = datetime.now() - timedelta(days=1)
+
+start_time = yesterday.strftime('%Y%m%dT00')
+end_time = yesterday.strftime('%Y%m%dT23')
+
+zip_dir = 'zip'
+os.makedirs(zip_dir, exist_ok = True)
+zipfilename = f'{zip_dir}/{start_time}-T23.zip'
+
 # Unpacks the .zip folder to the temp directory, revealing several .gz files
 try:
-    with zipfile.ZipFile("zip/2026-11-13 09-50-36.zip", "r") as zip_ref:
+    with zipfile.ZipFile(zipfilename, "r") as zip_ref:
         zip_ref.extractall(temp_dir)
-        logger.info(f"zip/2026-11-13 09-50-36.zip extracted to temp directory: {temp_dir} ")
+        logger.info(f"{zipfilename}] extracted to temp directory: {temp_dir} ")
 except Exception as e:
     logger.error(f"Error extracting zip file: {str(e)}")
     raise
@@ -80,4 +90,4 @@ except Exception as e:
 
 print("All files extracted to the 'data' directory!")
 
-
+##may need to add l to json > jsonl if not working
