@@ -1,3 +1,4 @@
+#Importing packages
 import os
 from datetime import datetime, timedelta
 import time
@@ -5,6 +6,7 @@ import requests
 import logging
 from dotenv import load_dotenv
 
+#Authentication
 load_dotenv() 
 api_key = os.getenv("AMP_API_KEY")
 secret_key = os.getenv("AMP_SECRET_KEY")
@@ -31,9 +33,10 @@ logging.basicConfig(
 logger = logging.getLogger()
 logger.info('Logger was successfully initialised')
 
+# Making a folder to save it in
 data_dir = 'data'
 os.makedirs(data_dir, exist_ok = True)
-## filename = f'{data_dir}/{timestamp}.json'
+filename = f'{data_dir}/{timestamp}.json'
 
 url = 'https://analytics.eu.amplitude.com/api/2/export'
 
