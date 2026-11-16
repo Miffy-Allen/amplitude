@@ -24,3 +24,17 @@ s3_client = boto3.client(
     aws_access_key_id = AWS_ACCESS_KEY,
     aws_secret_access_key = AWS_SECRET_ACCESS_KEY
 )
+
+# Loop through json files
+for file in file_location:
+    to_upload = f'{data_dir}/{file}'
+    try:
+        s3_client.upload_file(
+            to_upload,
+            AWS_BUCKET_NAME,
+            file
+        )
+        print(f'{file} successfully uploaded - yay')
+        os.remove(to_upload)
+    except Exception as e:
+        print(f'Oops something went wrong. Error: {e}')
