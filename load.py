@@ -65,4 +65,4 @@ session = boto3.Session( aws_access_key_id= AWS_ACCESS_KEY, aws_secret_access_ke
 s3 = session.resource('s3') # session = authenticated / resource means that aws will return the data as objects / s3 specifies what we are looking for
 my_bucket = s3.Bucket('ma-des9-amplitude') # Points to my bucket
 for my_bucket_object in my_bucket.objects.all(): # Loops through all the objects in my bucket
-    print(my_bucket_object.key)
+    print(my_bucket_object.key) # Prints the objects
