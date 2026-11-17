@@ -63,6 +63,6 @@ for file in file_location:
 # Listing what's in the s3 bucket
 session = boto3.Session( aws_access_key_id= AWS_ACCESS_KEY, aws_secret_access_key= AWS_SECRET_ACCESS_KEY) # Creating a 'session' with aws and authenticating - a session holds your authentication
 s3 = session.resource('s3') # session = authenticated / resource means that aws will return the data as objects / s3 specifies what we are looking for
-my_bucket = s3.Bucket('ma-des9-amplitude') # Points to my bucket
+my_bucket = s3.Bucket(AWS_BUCKET_NAME) # Points to my bucket
 for my_bucket_object in my_bucket.objects.all(): # Loops through all the objects in my bucket
     print(my_bucket_object.key) # Prints the objects
