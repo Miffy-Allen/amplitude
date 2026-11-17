@@ -43,4 +43,4 @@ if start_date is None: # if no start date provided then:
     if file_dates:
         start_date = min(file_dates) # earliest date found in bucket
     else:
-        start_date = end_date- timedelta(days=7) # if the bucket is empty start from a week ago
+        start_date = end_date- timedelta(days=7) # if the bucket is empty start from a week ago 
