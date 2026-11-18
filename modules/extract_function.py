@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 # Creating a function for modularizing
 
-def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_time: str, end_time: str, AWS_ACCESS_KEY: str, AWS_SECRET_ACCESS_KEY: str, AWS_BUCKET_NAME: str):
+def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_time: str, end_time: str, AMP_API_KEY: str, AMP_SECRET_KEY: str):
     """_summary_
 
     Args:
@@ -21,9 +21,8 @@ def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_t
         delay (int): how long to wait between calls
         start_time (str): date of file
         end_time (str): date of file
-        AWS_ACCESS_KEY (str): Key Value - get value from your .env file
-        AWS_SECRET_ACCESS_KEY (str): Secret Key - get value from your .env file
-        AWS_BUCKET_NAME (str): filepath to save data to
+        AMP_API_KEY (str): Key Value - get value from your .env file
+        AMP_SECRET_KEY (str): Secret Key - get value from your .env file
     """    
 
     #Maked directory if not exist
@@ -39,7 +38,7 @@ def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_t
     attempt = 0
 
     while attempt <= max_attempt:
-        response = requests.get(url, params= params, auth = (AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME),) ##check this
+        response = requests.get(url, params= params, auth = (AMP_API_KEY, AMP_SECRET_KEY)) ##check this
         status_code = response.status_code
 
         if 200 <= status_code < 300:
@@ -48,7 +47,7 @@ def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_t
                             file.write(response.content)
                             print(f'Zipfile {zipfilename} saved successfully!')
                             logger.info(f'Zipfile {zipfilename} saved successfully!')
-                            return True
+                            return zipfilename
                 except Exception as e:
                     print(f'An error occurred when saving the zipfile - oops: {e}')
                 break

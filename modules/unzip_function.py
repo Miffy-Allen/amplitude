@@ -11,14 +11,14 @@ from datetime import timedelta
 #appends log with filename
 logger = logging.getLogger(__name__)
 
-def unzip_function(temp_dir: str, data_dir : str, date: str, zip_dir ):
+
+def unzip_function(temp_dir: str, data_dir : str, zipfilename: str ):
     """_summary_
 
     Args:
-        temp_dir (str): tempory directory for extraction
-        data_dir (str): data directory
-        date (str): date selected
-        zip_dir (_type_): zip directory
+        temp_dir (str): tempory directory to unzip to
+        data_dir (str): data directory where json files are loaded to
+        zip_dir (_type_): file to unzip
     """    
     # Unpacks the .zip folder to the temp directory, revealing several .gz files
     try:
@@ -58,6 +58,7 @@ def unzip_function(temp_dir: str, data_dir : str, date: str, zip_dir ):
                         shutil.copyfileobj(gz_file, out_file)
                         
                         logger.info(f"Successfully processed: {file} -> {json_filename}")
+                        return True
                 except Exception as e:
                     logger.error(f"Failed to process file {file}: {str(e)}")
                 
