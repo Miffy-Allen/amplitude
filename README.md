@@ -1,16 +1,10 @@
 # Amplitude API and S3 Pipeline
-This project extracts data from the **Amplitude Export API**, decompresses the files and uploads the JSON files to an AWS S3 bucket.
+This project extracts event data from the **Amplitude Export API**, decompresses the files and uploads the JSON files to an AWS S3 bucket.
 
 ## Description
-### amplitude_api.py script
+### main.py
 
-This script extracts data from the Amplitude Export API, returning a saved timestamped zip file of yesterdays data. Logging is used to ensure progress/errors are recorded during the extraction. 
-
-### unzip.py script
-The 'unzip' script locates the saved zipfile from the previous script and decompresses the file. It then saves the files in a json format in a separate directory, deleting the temporary directory containing the zipfile.
-
-### load.py script
-The 'load' script connects to AWS using boto3, uploading the JSON files to an AWS s3 bucket. Once the file has been uploaded to the s3 bucket it is locally deleted. It also lists files that are currently in the s3 bucket.
+This script extracts event data from the Amplitude Export API, returning a saved timestamped zip file of yesterdays data. The script then decompresses the file and saves it as a json in a seperate directory, deleting the temporary directory containing the zip file. The script connects to AWS using boto3 and uploads the json files to an AWS s3 bucket. Once the file has been uploaded to the s3 bucket it is locally deleted. Logging is used to ensure progress/errors are recorded throughout the script. 
 
 ## Dependencies
 Required to run this project:
