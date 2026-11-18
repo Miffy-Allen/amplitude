@@ -48,6 +48,7 @@ def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_t
                             file.write(response.content)
                             print(f'Zipfile {zipfilename} saved successfully!')
                             logger.info(f'Zipfile {zipfilename} saved successfully!')
+                            return True
                 except Exception as e:
                     print(f'An error occurred when saving the zipfile - oops: {e}')
                 break

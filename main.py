@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 from modules.extract_function import extract_to_zip
 
 #Authentication
-load_dotenv
+load_dotenv()
 
 AWS_ACCESS_KEY = os.getenv('AWS_ACCESS_KEY')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
@@ -36,9 +36,14 @@ logger.info('Logger was successfully initialised')
 url = 'https://analytics.eu.amplitude.com/api/2/export'
 zip_dir = 'zip'
 
-extract_result = extract_to_zip(url, zip_dir, max_attempt = 3, delay = 10)
+# Format the start and end time strings (YYYYMMDDTHH)
+yesterday = datetime.now() - timedelta(days=1)
+start_time = yesterday.strftime('%Y%m%dT00') 
+end_time = yesterday.strftime('%Y%m%dT23') 
 
-## if extract_result :
+extract_result = extract_to_zip(url, zip_dir, max_attempt = 3, delay = 10, start_time = start_time , end_time = end_time, AWS_ACCESS_KEY = 'AWS_ACCESS_KEY',  AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY', AWS_BUCKET_NAME = 'AWS_BUCKET_NAME')
+
+##if extract_result :
     ## unzip_function
     ## logger.info - extract saved and 
 ## else:
