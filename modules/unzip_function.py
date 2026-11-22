@@ -45,7 +45,7 @@ def unzip_function(temp_dir: str, data_dir : str, zipfilename: str ):
 
     # we read the contents of the .gz file and write the content to a new json in our data_dir
 
-
+    processed = 0
     for root, _, files in os.walk(day_path):
         for file in files:
             if file.endswith('.gz'):
@@ -58,10 +58,11 @@ def unzip_function(temp_dir: str, data_dir : str, zipfilename: str ):
                         shutil.copyfileobj(gz_file, out_file)
                         
                         logger.info(f"Successfully processed: {file} -> {json_filename}")
-                        return True
+                        ## return True ##
+                        processed += 1 ##added
                 except Exception as e:
                     logger.error(f"Failed to process file {file}: {str(e)}")
-                
+                    raise #added
     try:
         # Delete the temporary directory
         shutil.rmtree(temp_dir)
@@ -79,5 +80,5 @@ def unzip_function(temp_dir: str, data_dir : str, zipfilename: str ):
         logger.error(f"Failed to delete zipfile {zipfilename} : {str(e)}")
 
     print("All files extracted to the 'data' directory!")
-
+    return True
 
