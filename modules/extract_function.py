@@ -51,12 +51,16 @@ def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_t
                 except Exception as e:
                     print(f'An error occurred when saving the zipfile - oops: {e}')
                 break
-        
-        elif 300 <= status_code < 505:
-            print(f'API call failed, status code {status_code}')
-            logger.error(f'API call failed, status code {status_code}')
+        elif status_code == 400:
+            print(f'Error code {status_code}. File size too large. Limit size is 4GB. Shorten the time ranges and try again')
+            logger.error(f'Error code {status_code}. File size too large. Limit size is 4GB. Shorten the time ranges and try again')
             break
         
+        elif status_code == 404:
+            print(f'Error code {status_code}. No data available for the time range requested. ')
+            logger.info(f'Error code {status_code}. No data available for the time range requested. ')
+            break
+
         else:
                 if attempt == max_attempt:
                     print(f'Max number of attempts reached. Status code {status_code}. Investigate further 👀')
@@ -67,4 +71,4 @@ def extract_to_zip(url: str, zip_dir: str, max_attempt: int, delay: int, start_t
 
                 attempt +=1
                 
-                time.sleep(30)
+                time.sleep(delay)

@@ -6,6 +6,8 @@ import requests
 import tempfile
 import logging
 from dotenv import load_dotenv
+
+# Add Modules
 from modules.extract_function import extract_to_zip
 from modules.unzip_function import unzip_function
 from modules.load_function import load_function
@@ -37,14 +39,24 @@ logger = logging.getLogger()
 logger.info('Logger was successfully initialised')
 
 #-----------------------------------------------------------
-#add the URL
+# API call
 url = 'https://analytics.eu.amplitude.com/api/2/export'
-zip_dir = 'zip'
+
 
 # Format the start and end time strings (YYYYMMDDTHH)
-date = datetime.now() - timedelta(days=1)
-start_time = date.strftime('%Y%m%dT00') 
-end_time = date.strftime('%Y%m%dT23')
+## current_date = datetime/now()
+yesterday = datetime.now() - timedelta(days=1)
+start_time = yesterday.strftime('%Y%m%dT00') 
+end_time = yesterday.strftime('%Y%m%dT23')
+
+# Directories
+zip_dir = 'zip' # Stores the raw zip file from API
+temp_dir = tempfile.mkdtemp() # Temporary Folder for extraction - deletes after
+data_dir = "data" # Stores final extracted json file for s3 upload
+
+#Final output folder exists before unzipping 
+os.makedirs(data_dir, exist_ok=True)
+
 max_attempt = 3
 delay = 10
 
@@ -53,24 +65,24 @@ extract_result = extract_to_zip(url, zip_dir, max_attempt, delay, start_time, en
 
 
 #unzip funct needs
-# Create a temporary directory for extraction
-temp_dir = tempfile.mkdtemp()
-# Create local output directory
-data_dir = "data"
-os.makedirs(data_dir, exist_ok=True)
-zipfilename = extract_result
+
+
+
 
 # #load funct needs
 # # Getting the file we want 
-file_location = os.listdir(data_dir)
+
 
 if extract_result:
+    zipfilename = extract_result
     unzip_function(temp_dir, data_dir, zipfilename)
     logger.info('Extract saved successfully and unzipped') 
+    file_location = os.listdir(data_dir)
 else:
+    unzip_result = False
     logger.info('Extract saved no data')
 
-if unzip_function:
+if unzip_result:
     load_function(data_dir, file_location, AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY, AWS_BUCKET_NAME)
     logger.info('Json successfully uploaded')
 else:
