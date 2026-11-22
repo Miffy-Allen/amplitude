@@ -75,7 +75,7 @@ extract_result = extract_to_zip(url, zip_dir, max_attempt, delay, start_time, en
 
 if extract_result:
     zipfilename = extract_result
-    unzip_function(temp_dir, data_dir, zipfilename)
+    unzip_result = unzip_function(temp_dir, data_dir, zipfilename)
     logger.info('Extract saved successfully and unzipped') 
     file_location = os.listdir(data_dir)
 else:
